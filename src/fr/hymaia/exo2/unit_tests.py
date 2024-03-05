@@ -1,8 +1,3 @@
-#Bonjour Monsieur, je vous prie de bien vouloir excuser ces tests, 
-#j'ai eu des problèmes avec mon environnement python depuis une heure 
-#et cela ne vaut pas la peine de le faire d'une autre manière alors que 
-#le TP concerne les tests unitaires et non l'architecture, je suis désolé !
-
 import unittest
 import spark_functions as utilities
 import spark_creator as spark_create

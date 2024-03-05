@@ -1,0 +1,8 @@
+The benchmarks should contain not just show, but write, and consider comparing writing to something that doesn't exist and overwriting (so deleting the original file) and then writing
+
+Writing is better than count because count might not actually apply all the transformations and might just count the size of the file
+Collect is maybe too heavy for most computers because the files are 4gb and to load all that in memory might cause an out of memeory exception,
+to avoid this we should increase the memory of the driver so that it can hold all the data
+
+Writing will always take longer than collecting because writing literally has to copy the information somewhere
+
