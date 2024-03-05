@@ -6,3 +6,15 @@ to avoid this we should increase the memory of the driver so that it can hold al
 
 Writing will always take longer than collecting because writing literally has to copy the information somewhere
 
+TEST TO SEE HOW LONG THE READINGS AND THE WRITINGS ARE TAKING
+You can measure the reading and the writing by not making any transformations, by just having a read and a write, doing it 10 times to see the average time, and then do the same treatment with the transformations and subtracting the transofrmationless time from the transformed time to measure more or less how long your treatments are taking
+
+When we were writing our window functions, there was an out of memory for the workers, if we get an out of memory for the collect, it's the driver. The collect is really the only time when the driver loads everything into itself
+
+If you get an out of memory exception from the workers you can either repartion your data by more values (for example category and category_name), or you can reduce the paralelism, because each executer will have more available RAM if there are less of them
+
+1st thing spark does it partition all the data and disptribute it to it's executers, if you don't specify how many executers you want, spark will make an executer out of every core that you have
+
+What will using a window function change ?
+
+You have to consider what you're partitioning your data by.
