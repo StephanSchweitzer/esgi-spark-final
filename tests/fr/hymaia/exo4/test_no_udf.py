@@ -19,9 +19,11 @@ class AddCategoryNameTest(SparkSessionTest):
         data = [("0", "2019-02-16", "6", 40.0)]
         df = self.spark.createDataFrame(data, ["id", "date", "category", "price"])
         transformed_df = df.withColumn("category_name", addCategoryName("category"))
+
         self.assertIn("category_name", transformed_df.columns)
         result = transformed_df.collect()[0]["category_name"]
         self.assertEqual(result, "furniture")
+
         expected_columns = ["id", "date", "category", "price", "category_name"]
         self.assertEqual(expected_columns, transformed_df.columns)
 
@@ -55,7 +57,6 @@ class AddTotalPricePerCategoryLast30DaysTest(SparkSessionTest):
         df = self.spark.createDataFrame(data, schema=schema)
         transformed_df = addTotalPricePerCategoryLast30Days(df, "date", "category_name", "price")
         results = transformed_df.select("category_name", "total_price_per_category_per_day_last_30_days").distinct().collect()
-
         expected_results = {"food": 130.0, "furniture": 120.0}
         for row in results:
             self.assertEqual(expected_results[row["category_name"]], row["total_price_per_category_per_day_last_30_days"])
