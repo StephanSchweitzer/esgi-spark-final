@@ -8,3 +8,4 @@ dist
 .pytest_cache
 .terraform*
 terraform.*
+tests/fr/hymaia/exo4/benchmarks/benchmark_test_output/
