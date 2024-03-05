@@ -1,7 +1,5 @@
 import unittest
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import udf
-from pyspark.sql.types import StringType
 from src.fr.hymaia.exo4.python_udf import addCategoryName
 
 class AddCategoryNameTest(unittest.TestCase):

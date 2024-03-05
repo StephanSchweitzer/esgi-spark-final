@@ -10,8 +10,7 @@ def main():
 
     df = spark.read.option("header", "true").csv("src/resources/exo4/sell.csv")
     df_agg = df.withColumn("category_name", addCategoryName(f.col("category")))
-    #df_agg.show()
-    #forcing the trasnformations to be processed
+    #forcing the trasnformations to be processed THIS HAS TO BE RECONSIDERED
     df_agg.count()
     end_time = time.time()
     print("Execution Time for Scala UDF: {:.2f} seconds".format(end_time - start_time))
