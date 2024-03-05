@@ -26,12 +26,9 @@ class NoUdfIntegrationTest(unittest.TestCase):
 
     def test_pipeline(self):
         df = self.spark.createDataFrame(self.data, schema=self.schema)
-
-        # Applying transformations
         df = df.withColumn("category_name", addCategoryName("category"))
         df = addTotalPriceCategoryDay(df, "date", "category_name")
         df = addTotalPricePerCategoryLast30Days(df, "date", "category_name", "price")
-        #df.show()
         results = df.collect()
         self.assertIn("category_name", df.columns)
         self.assertIn("total_price_per_category_per_day", df.columns)
@@ -43,12 +40,9 @@ class NoUdfIntegrationTest(unittest.TestCase):
         ("2", datetime.now().date() - timedelta(days=29), "food", 15.0, 25.0),
         ("3", datetime.now().date() - timedelta(days=31), "food", 5.0, 25.0)]
 
-        # for row in results:
-        #     self.assertEqual(expected_results[row["category_name"]], row["total_price_per_category_per_day_last_30_days"])
-        results_sorted = sorted(results, key=lambda x: x[0])  # Assuming 'id' can be used as a sort key
+        results_sorted = sorted(results, key=lambda x: x[0])
         expected_sorted = sorted(expected_results, key=lambda x: x[0])
 
-        # Iterate through sorted results and expected outcomes for comparison
         for actual, expected in zip(results_sorted, expected_sorted):
             self.assertEqual(actual["id"], expected[0])
             self.assertEqual(actual["date"], expected[1])
