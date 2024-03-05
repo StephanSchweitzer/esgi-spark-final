@@ -1,6 +1,8 @@
 locals {
   tags = {
-    surname = "" # TODO : complete
-    mail = "" # TODO : complete
+    surname = "pradier"
+    mail = "william.pradier2@gmail.com"
+    school = "true"
+    terraform = "true"
   }
 }
