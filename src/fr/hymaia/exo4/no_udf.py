@@ -14,11 +14,10 @@ def main():
     df = spark.read.option("header", "true").csv("src/resources/exo4/sell.csv")
     categories = addCategoryName("category")
     df_cat = df.withColumn("category_name", categories)
-    #df_price = addTotalPriceCategoryDay(df_cat, "date", "category")
-    #df_final = addTotalPricePerCategoryLast30Days(df_price, "date", "category")
-    #df_final.show()
-    df_cat.count()
-    end_time = time.time() #8.3 seconds
+    df_price = addTotalPriceCategoryDay(df_cat, "date", "category")
+    df_final = addTotalPricePerCategoryLast30Days(df_price, "date", "category")
+    df_final.show()
+    end_time = time.time()
     print("Execution Time for Non-UDF: {:.2f} seconds".format(end_time - start_time))
 
 def addCategoryName(col):

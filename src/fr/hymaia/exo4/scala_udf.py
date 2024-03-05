@@ -3,7 +3,7 @@ from pyspark.sql import SparkSession
 from pyspark.sql.column import Column, _to_java_column, _to_seq
 import time
 
-spark = SparkSession.builder.config('spark.jars', 'src/resources/exo4/udf.jar').appName("exo4").master("local[*]").getOrCreate()
+spark = SparkSession.builder.config('spark.jars', 'src/resources/exo4/udf.jar').appName("exo4").master("local[3]").getOrCreate()
 
 def main():
     start_time = time.time()

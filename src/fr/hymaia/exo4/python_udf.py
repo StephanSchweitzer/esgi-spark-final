@@ -8,7 +8,7 @@ def main():
     start_time = time.time()
     spark = SparkSession.builder \
         .appName("python_udf") \
-        .master("local[*]") \
+        .master("local[3]") \
         .getOrCreate()
 
     df = spark.read.option("header", "true").csv("src/resources/exo4/sell.csv")
