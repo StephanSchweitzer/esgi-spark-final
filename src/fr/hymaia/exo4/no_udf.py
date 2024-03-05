@@ -37,6 +37,7 @@ def addUpdatedTotalPricePerCategory(df, date_col, category_col, price_col):
     return df_with_total
 
 def addTotalPricePerCategoryLast30Days(df, date_col, category_col, price_col):
+    beginning_columns = df.columns
     max_date = df.agg(f.max(date_col).alias("max_date")).collect()[0]["max_date"]
     start_date = max_date - f.expr("INTERVAL 30 DAYS")
 
@@ -44,7 +45,7 @@ def addTotalPricePerCategoryLast30Days(df, date_col, category_col, price_col):
     sums_last_30_days = df_last_30_days.groupBy(category_col).agg(f.sum(price_col).alias("total_price_per_category_per_day_last_30_days"))
 
     df_with_total_sum = df.join(sums_last_30_days, category_col, "left")
-    final_columns = ["id", "date", category_col, price_col, "total_price_per_category_per_day_last_30_days"]
+    final_columns = beginning_columns + ["total_price_per_category_per_day_last_30_days"]
     df_with_total_sum = df_with_total_sum.select(final_columns)
 
     return df_with_total_sum
