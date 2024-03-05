@@ -34,10 +34,10 @@ class AddTotalPriceCategoryDayTest(SparkSessionTest):
         schema = ["id", "date", "category_name", "price"]
         df = self.spark.createDataFrame(data, schema=schema)
         transformed_df = addTotalPriceCategoryDay(df, "date", "category_name")
-        expected_data = [("0", "2019-02-16", "food", 20.0, 30.0),
-                         ("1", "2019-02-16", "food", 40.0, 30.0),
-                         ("2", "2019-02-17", "furniture", 60.0, 70.0),
-                         ("3", "2019-02-17", "furniture", 80.0, 70.0)]
+        expected_data = [("0", "2019-02-16", "food", 20.0, 60.0),
+                         ("1", "2019-02-16", "food", 40.0, 60.0),
+                         ("2", "2019-02-17", "furniture", 60.0, 140.0),
+                         ("3", "2019-02-17", "furniture", 80.0, 140.0)]
         expected_df = self.spark.createDataFrame(expected_data, schema=schema + ["total_price_per_category_per_day"])
         self.assertTrue(expected_df.collect() == transformed_df.collect())
         expected_columns = ["id", "date", "category_name", "price", "total_price_per_category_per_day"]
@@ -54,7 +54,6 @@ class AddTotalPricePerCategoryLast30DaysTest(SparkSessionTest):
         schema = ["id", "date", "category_name", "price"]
         df = self.spark.createDataFrame(data, schema=schema)
         transformed_df = addTotalPricePerCategoryLast30Days(df, "date", "category_name", "price")
-        transformed_df.show()
         results = transformed_df.select("category_name", "total_price_per_category_per_day_last_30_days").distinct().collect()
 
         expected_results = {"food": 130.0, "furniture": 120.0}

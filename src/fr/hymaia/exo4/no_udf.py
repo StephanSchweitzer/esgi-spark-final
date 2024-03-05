@@ -25,7 +25,7 @@ def addCategoryName(col):
 
 def addTotalPriceCategoryDay(df, col1, col2):
     window = Window.partitionBy(col1, col2)
-    dfWithtotalPriceCategoryDay = df.withColumn("total_price_per_category_per_day", f.avg("price").over(window))
+    dfWithtotalPriceCategoryDay = df.withColumn("total_price_per_category_per_day", f.sum("price").over(window))
     return dfWithtotalPriceCategoryDay
 
 def addUpdatedTotalPricePerCategory(df, date_col, category_col, price_col):
@@ -48,36 +48,3 @@ def addTotalPricePerCategoryLast30Days(df, date_col, category_col, price_col):
     df_with_total_sum = df_with_total_sum.select(final_columns)
 
     return df_with_total_sum
-
-# def addTotalPricePerCategoryLast30Days(df, date_col, category_col):
-#     df = df.withColumn(date_col, f.col(date_col).cast(DateType()))
-
-#     days = lambda i: i * 86400
-#     windowSpec = Window \
-#         .partitionBy(category_col) \
-#         .orderBy(f.col(date_col).cast("timestamp").cast("long")) \
-#         .rangeBetween(-days(30), 0)
-    
-#     df = df.withColumn("total_price_per_category_per_day_last_30_days", 
-#                        f.sum("price").over(windowSpec))
-#     return df
-
-# def addTotalPricePerCategoryLast30Days(df, date_col, category_col):
-#     # Ensure the date column is in the correct format
-#     df = df.withColumn(date_col, f.col(date_col).cast(DateType()))
-    
-#     # Convert date to Julian date to simplify the calculation, if not already
-#     df = df.withColumn("julian_date", f.datediff(f.col(date_col), f.lit("1970-01-01")))
-    
-#     # Define the window specification
-#     windowSpec = Window \
-#         .partitionBy(category_col) \
-#         .orderBy("julian_date") \
-#         .rangeBetween(-30, 0)
-    
-#     # Calculate the rolling sum over the last 30 days
-#     df = df.withColumn("total_price_per_category_per_day_last_30_days", 
-#                        f.sum("price").over(windowSpec))
-    
-#     return df.drop("julian_date")
-
